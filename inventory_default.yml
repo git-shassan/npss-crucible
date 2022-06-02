@@ -294,11 +294,15 @@ all:
                 #                id: 12
         network_config:
           interfaces:
+                  # - name: eno12399
+                  # type: ethernet
+                  # mac: "{{ enomac }}"
+                  # state: down
             - name: ens4f0
               type: ethernet
               mac: "{{ mac }}"
               state: up
-            - name: vlan12
+            - name: ens4f0.vlan12
               type: vlan
               state: up
               addresses:
@@ -306,14 +310,14 @@ all:
                 - ip: "{{ ansible_host }}"
                   prefix: "{{ bond0_mask }}"
               vlan:
-                base-iface: ens4f0
-                id: 12
+                interface: ens4f0
+                tag: 12
           dns_server_ips:
             - "{{ dns1 }}"
           routes:
             - destination: 0.0.0.0/0
               address: "{{ gateway }}"
-              interface: ens4f0
+              interface: ens4f0.vlan12
       children:
         masters:
           vars:
@@ -323,6 +327,7 @@ all:
             master1:
               ansible_host: 192.168.12.80
               mac: "b4:96:91:b6:2a:8e" 
+              enomac: "b4:96:91:ba:1a:a6"
               bmc_address: 192.168.12.141 #"vm_host.clustername.example.lab:8082" # port can be changed using sushy_tools_port on the vm_host
 
               # # Uncomment to set custom BMC credentials for the node
@@ -333,9 +338,11 @@ all:
             master2:
               ansible_host: 192.168.12.81
               mac:  "b4:96:91:B6:2b:f0"
+              enomac: "b4:96:91:ba:18:20"
               bmc_address: 192.168.12.140 #"vm_host.clustername.example.lab:8082" # port can be changed using sushy_tools_port on the vm_host
 
             master3:
               ansible_host: 192.168.12.82
               mac: "b4:96:91:b6:29:76"
+              enomac: "b4:96:91:ba:17:be"
               bmc_address: 192.168.12.169 #"vm_host.clustername.example.lab:8082" # port can be changed using sushy_tools_port on the vm_host
