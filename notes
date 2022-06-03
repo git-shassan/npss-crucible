@@ -1,0 +1,25 @@
+To disable interfaces
+********************
+
+- name: enp14s0f0
+              type: ethernet
+              state: up
+              enabled: true
+              ipv4:
+                enabled: false
+                dhcp: false
+
+the trick was in state:up & enabled: true and inside ipv4 block enabled: false
+
+V6 addresses instead of V4:
+****************************
+
+spec:
+  apiVIP: 10.50.0.98
+  #apiVIP: fd00:6:6:2052::98
+  ingressVIP: 10.50.0.99
+  #ingressVIP: fd00:6:6:2052::99
+
+(https://github.com/novacain1/carslab-public/blob/main/rhocp-clusters/mgmt/volt.cars.lab/skylark-rhacm-testing/08-aci.yaml#L11) 
+
+
